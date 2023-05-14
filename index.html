@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #dragDropList {
+        width: 200px;
+        height: 400px;
+        margin: 0;
+        padding: 0;
+      }
+      .draggable {
+        margin: 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        cursor: move;
+      }
+      .GroupItem {
+        background-color: red;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Bubble elements</h1>
+    <div
+      class="bubble-element RepeatingGroup bubble-rg"
+      id="rg-draggable"
+      style="
+        min-width: 0%;
+        order: 5;
+        min-height: 99%;
+        max-height: 99%;
+        width: 100%;
+        flex-grow: 1;
+        height: 99%;
+        margin: 0px;
+        gap: 0px;
+        grid-template-rows: repeat(1, minmax(0px, 1fr));
+        grid-auto-columns: minmax(max-content, 150px);
+        grid-auto-flow: column;
+        overflow: auto;
+        border-radius: 0px;
+        opacity: 1;
+        cursor: auto;
+      "
+    >
+      <div
+        class="bubble-element GroupItem bubble-r-container-wrapper group-item entry-1"
+        style="
+          box-sizing: content-box;
+          min-width: 150px;
+          border-top-style: none;
+          border-left-style: none;
+        "
+      >
+        <div
+          id="draggable-header"
+          class="draggable"
+          style="background-color: grey; padding: 12px"
+        >
+          Draggable header
+        </div>
+        <div id="Main-inner RG group" style="padding: 10px; height: 150px">
+          Item 1
+        </div>
+      </div>
+      <div
+        class="bubble-element GroupItem bubble-r-container-wrapper group-item entry-2"
+        style="
+          box-sizing: content-box;
+          min-width: 150px;
+          border-top-style: none;
+          border-left-style: none;
+        "
+        draggable="true"
+      >
+        <div
+          id="draggable-header"
+          class="draggable"
+          style="background-color: grey; padding: 12px"
+        >
+          Draggable header
+        </div>
+        <div
+          draggable="true"
+          id="Main-inner RG group"
+          style="padding: 10px; height: 150px"
+        >
+          Item 2
+        </div>
+      </div>
+    </div>
+
+    <h2>Standard Style</h2>
+    <ul id="dragDropList">
+      <li class="draggable" draggable="true">Item 1</li>
+      <li class="draggable" draggable="true">Item 2</li>
+      <li class="draggable" draggable="true">Item 3</li>
+      <li class="draggable" draggable="true">Item 4</li>
+    </ul>
+
+    <script>
+      const rgItems = document.getElementById(`rg-draggable`).children;
+      const draggableHeader = document.getElementsByClassName(`draggable`);
+
+      for (item of draggableHeader) {
+        item.addEventListener(`pointerdown`, (e) => {
+          console.log(`pointer down`);
+          e.target.parentElement.draggable = true;
+        });
+        item.parentElement.addEventListener(`dragend`, (e) => {
+          console.log(`disabled the ability to drag on the main element`);
+          e.target.draggable = false;
+        });
+      }
+
+      //rg item element
+      for (target of rgItems) {
+        console.log(item);
+        target.classList.add(`droppable`);
+        target.addEventListener("dragover", (event) => {
+          // prevent default to allow drop
+          if (event.target.className === "draggable") return;
+          console.log(`dragover is running`);
+
+          event.preventDefault();
+        });
+        target.addEventListener("drop", (event) => {
+          // prevent default action (open as link for some elements)
+          event.preventDefault();
+          console.log(`drop is running`);
+          // move dragged element to the selected drop target
+          if (event.target.className === "dropzone") {
+            dragged.parentNode.removeChild(dragged);
+            event.target.appendChild(dragged);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
